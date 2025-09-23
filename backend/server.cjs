@@ -8,7 +8,7 @@ const app = express();
 const PORT = 5000;
 
 // 🔑 WhatsApp API credentials (hardcoded)
-const WHATSAPP_TOKEN = "EAAUGvmZCRKvwBPpfsVNCANrIQ6WmMmbR8EKzyyCXAWH6l0BthIO644qXVbl2ldAvTLfUXZCd83hLOproPw3Ms0ZBREWPJ4i7zwogENhWsuh5eHLRamxLYxwo9l7LffPIfEStwkb9PBEvr8cZCZBnJZAy02kO9nzthmsx9hkF9oSqPnTOpr9bUZCp83tlWx1KvUtCR70OW9fUD9Hhzvm5jzgOKcstMkgwcHMgrDCKoUgSAC4IdUZD";
+const WHATSAPP_TOKEN = "EAAUGvmZCRKvwBPpQuxA5uoEG0xsdZB7tZAw8UUVbraR6578o0JruRMI7gwKXXhDqQUmESN1iF9mon8YJZAwvW26eT1ukv7wyqeoYVNl0p9jx3e937WNlZCrvRgPuZBH5Jwh9tItKS3pXNN9YZA9gk46WzxIB2ngB6VnRTECEm4gKJr3PtGOIoLl3bYc0PbIoby8y96IvNnNkSZBjKMEkfTDLRN1e1SNW51yVxDermVVDSRxKtwZDZD";
 const PHONE_NUMBER_ID = "746824585185466";
 const TO_NUMBER = "919650696709"; // apna WhatsApp number with country code
 
@@ -53,3 +53,4 @@ app.post("/api/sendNotification", async (req, res) => {
 });
 
 app.listen(PORT, () => console.log(`Backend running on port ${PORT}`));
+
