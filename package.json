@@ -1,0 +1,40 @@
+{
+  "name": "margdarshi-railway-dashboard",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "deploy": "npm run build && netlify deploy --prod --dir=dist",
+    "start": "vite preview --host 0.0.0.0 --port 1000"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.8.1",
+    "lucide-react": "^0.263.1",
+    "date-fns": "^2.30.0",
+    "recharts": "^2.8.0",
+    "leaflet": "^1.9.4",
+    "framer-motion": "^10.16.4",
+    "clsx": "^2.0.0",
+    "serve": "^14.2.5",
+    "signal-exit": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@vitejs/plugin-react": "^4.0.3",
+    "vite": "^4.4.5",
+    "tailwindcss": "^3.3.3",
+    "autoprefixer": "^10.4.15",
+    "postcss": "^8.4.29",
+    "eslint": "^9.36.0",
+    "eslint-plugin-react": "^7.37.5",
+    "@typescript-eslint/parser": "^8.44.0",
+    "@typescript-eslint/eslint-plugin": "^8.44.0",
+    "vite-plugin-eslint2": "^5.0.4"
+  }
+}
