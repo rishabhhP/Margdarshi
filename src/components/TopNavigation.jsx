@@ -19,6 +19,8 @@ import {
   Zap
 } from 'lucide-react'
 import NotificationDropdown from './NotificationDropdown'
+import logo1 from '../assets/logo1.png';
+
 
 const TopNavigation = forwardRef((props, ref) => {
   const { user, logout } = useAuth()
@@ -83,10 +85,8 @@ const TopNavigation = forwardRef((props, ref) => {
             <div className="flex items-center">
               {/* Logo Section */}
               <div className="logo-container mr-4">
-                <div className="h-10 w-10 bg-gradient-to-br from-orange-500 to-blue-600 rounded-lg flex items-center justify-center">
-                  <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2C8.69 2 6 4.69 6 8v8c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V8c0-3.31-2.69-6-6-6zm-2 15c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm4 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm2-7H8V8c0-2.21 1.79-4 4-4s4 1.79 4 4v2z"/>
-                  </svg>
+                <div className="logo-container mr-4">
+                  <img src={logo1} alt="Logo" className="h-12 w-12 object-contain rounded-lg shadow-lg hover:scale-105 transition-transform duration-30" />
                 </div>
               </div>
               <div>
