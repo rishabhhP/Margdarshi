@@ -37,18 +37,36 @@ const NotificationDropdown = ({ onClose }) => {
     return message || templates[selectedType] || 'Custom notification message...'
   }
 
-  const handleSend = () => {
+const handleSend = async () => {
+  try {
     const notification = {
       type: selectedType,
       recipient,
       message: generatePreview(),
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+    };
+
+    // Send to backend
+    const response = await fetch('http://localhost:5000/api/sendNotification', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: notification.message }),
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      alert(t('notificationSentSuccessfully'));
+    } else {
+      alert('Failed to send notification: ' + data.error);
     }
-    
-    console.log('Sending notification:', notification)
-    alert(t('notificationSentSuccessfully'))
-    onClose()
+
+    onClose();
+  } catch (err) {
+    console.error(err);
+    alert('Error sending notification: ' + err.message);
   }
+};
 
   return (
     <div className="notification-dropdown">
