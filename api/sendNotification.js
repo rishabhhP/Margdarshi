@@ -1,5 +1,4 @@
-import fetch from "node-fetch";
-
+// /api/sendNotification.js
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ success: false, error: "Method not allowed" });
@@ -8,6 +7,10 @@ export default async function handler(req, res) {
   const { message } = req.body;
   if (!message) {
     return res.status(400).json({ success: false, error: "Message is required" });
+  }
+
+  if (!process.env.WHATSAPP_TOKEN || !process.env.PHONE_NUMBER_ID || !process.env.TO_NUMBER) {
+    return res.status(500).json({ success: false, error: "Missing environment variables" });
   }
 
   try {
@@ -31,7 +34,6 @@ export default async function handler(req, res) {
     const data = await response.json();
 
     if (data.error) {
-      console.error("WhatsApp API error:", data.error);
       return res.status(500).json({ success: false, error: data.error });
     }
 
