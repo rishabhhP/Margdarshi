@@ -54,7 +54,7 @@ const NotificationDropdown = ({ onClose }) => {
       data = await response.json();
     } catch (err) {
       // Log the raw response if JSON fails
-      console.error("Failed to parse JSON:", await response.text());
+      console.error("Server returned invalid JSON:", await response.text());
       alert("Server returned invalid JSON. Check Vercel logs.");
       return;
     }
@@ -62,7 +62,7 @@ const NotificationDropdown = ({ onClose }) => {
     if (data.success) {
       alert("Notification sent successfully!");
     } else {
-      alert("Failed to send notification: " + data.error);
+      alert("Failed: " + data.error);
     }
   } catch (err) {
     console.error(err);
