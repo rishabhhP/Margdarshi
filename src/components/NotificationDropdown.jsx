@@ -37,36 +37,39 @@ const NotificationDropdown = ({ onClose }) => {
     return message || templates[selectedType] || 'Custom notification message...'
   }
 
-const handleSend = async () => {
+  const handleSend = async () => {
   try {
     const notification = {
-      type: selectedType,
-      recipient,
-      message: generatePreview(),
-      timestamp: new Date().toISOString(),
+      message: generatePreview(), // your message content
     };
 
-    // Send to backend
-    const response = await fetch('/api/sendNotification',{
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    const response = await fetch("/api/sendNotification", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message: notification.message }),
     });
 
-    const data = await response.json();
-
-    if (data.success) {
-      alert(t('notificationSentSuccessfully'));
-    } else {
-      alert('Failed to send notification: ' + data.error);
+    let data;
+    try {
+      data = await response.json();
+    } catch (err) {
+      // Log the raw response if JSON fails
+      console.error("Failed to parse JSON:", await response.text());
+      alert("Server returned invalid JSON. Check Vercel logs.");
+      return;
     }
 
-    onClose();
+    if (data.success) {
+      alert("Notification sent successfully!");
+    } else {
+      alert("Failed to send notification: " + data.error);
+    }
   } catch (err) {
     console.error(err);
-    alert('Error sending notification: ' + err.message);
+    alert("Error sending notification: " + err.message);
   }
 };
+
 
   return (
     <div className="notification-dropdown">
