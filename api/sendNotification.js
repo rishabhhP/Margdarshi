@@ -1,25 +1,16 @@
-// api/sendNotification.js
 import fetch from "node-fetch";
 
 export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ success: false, error: "Method not allowed" });
+  }
+
+  const { message } = req.body;
+  if (!message) {
+    return res.status(400).json({ success: false, error: "Message is required" });
+  }
+
   try {
-    if (req.method !== "POST") {
-      return res.status(405).json({ success: false, error: "Method not allowed" });
-    }
-
-    const { message } = req.body;
-    if (!message) return res.status(400).json({ success: false, error: "Message is required" });
-
-    // Check env variables
-    if (!process.env.WHATSAPP_TOKEN || !process.env.PHONE_NUMBER_ID || !process.env.TO_NUMBER) {
-      return res.status(500).json({
-        success: false,
-        error: "One or more environment variables are missing",
-      });
-    }
-
-    console.log("Env variables are OK");
-
     const response = await fetch(
       `https://graph.facebook.com/v17.0/${process.env.PHONE_NUMBER_ID}/messages`,
       {
@@ -39,11 +30,14 @@ export default async function handler(req, res) {
 
     const data = await response.json();
 
-    if (data.error) return res.status(500).json({ success: false, error: data.error });
+    if (data.error) {
+      console.error("WhatsApp API error:", data.error);
+      return res.status(500).json({ success: false, error: data.error });
+    }
 
-    return res.status(200).json({ success: true, data });
+    res.status(200).json({ success: true, data });
   } catch (err) {
     console.error("Serverless function error:", err);
-    return res.status(500).json({ success: false, error: err.message });
+    res.status(500).json({ success: false, error: err.message });
   }
 }
