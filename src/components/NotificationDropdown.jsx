@@ -47,7 +47,7 @@ const handleSend = async () => {
     };
 
     // Send to backend
-    const response = await fetch('http://localhost:5000/api/sendNotification', {
+    const response = await fetch('/api/sendNotification',{
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ message: notification.message }),
