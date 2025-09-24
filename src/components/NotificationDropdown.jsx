@@ -40,7 +40,7 @@ const NotificationDropdown = ({ onClose }) => {
   const handleSend = async () => {
     try {
       const notification = {
-        message: generatePreview(), // your message
+        message: generatePreview(),
       };
   
       const response = await fetch("/api/sendNotification", {
@@ -48,28 +48,30 @@ const NotificationDropdown = ({ onClose }) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: notification.message }),
       });
-  
-      // ✅ Read response as JSON safely
-      let data;
-      try {
-        data = await response.json(); // only read once
-      } catch (err) {
-        const text = await response.text(); // fallback to raw text
-        console.error("Server returned invalid JSON:", text);
-        alert("Server returned invalid JSON. Check Vercel logs.");
-        return;
-      }
-  
-      if (data.success) {
-        alert("Notification sent successfully!");
-      } else {
-        alert("Failed: " + data.error);
-      }
+
+    // clone response for safe fallback
+    let data;
+    try {
+      const resClone = response.clone();
+      data = await response.json();
     } catch (err) {
-      console.error("Fetch error:", err);
-      alert("Error sending notification: " + err.message);
+      const text = await response.clone().text(); // safe fallback
+      console.error("Server returned invalid JSON:", text);
+      alert("Server returned invalid JSON. Check Vercel logs.");
+      return;
     }
-  };
+
+    if (data.success) {
+      alert("Notification sent successfully!");
+    } else {
+      alert("Failed: " + data.error);
+    }
+  } catch (err) {
+    console.error("Fetch error:", err);
+    alert("Error sending notification: " + err.message);
+  }
+};
+
 
 
 
