@@ -13,6 +13,21 @@ export default async function handler(req, res) {
     return res.status(400).json({ success: false, error: "Message is required" });
   }
 
+  // ✅ Log env variables to check they exist (remove in production if needed)
+  console.log("Env variables:", {
+    token: process.env.WHATSAPP_TOKEN ? "OK" : "MISSING",
+    phoneId: process.env.PHONE_NUMBER_ID ? "OK" : "MISSING",
+    to: process.env.TO_NUMBER ? "OK" : "MISSING",
+  });
+
+  // Check if env vars are present
+  if (!process.env.WHATSAPP_TOKEN || !process.env.PHONE_NUMBER_ID || !process.env.TO_NUMBER) {
+    return res.status(500).json({
+      success: false,
+      error: "One or more environment variables are missing",
+    });
+  }
+
   try {
     // Send message via WhatsApp API
     const response = await fetch(
