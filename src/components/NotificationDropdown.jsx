@@ -48,29 +48,22 @@ const NotificationDropdown = ({ onClose }) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: notification.message }),
       });
-
-    // clone response for safe fallback
-    let data;
-    try {
-      const resClone = response.clone();
-      data = await response.json();
+  
+      // ✅ Read JSON once
+      const data = await response.json();
+  
+      if (data.success) {
+        alert("Notification sent successfully!");
+      } else {
+        console.error("WhatsApp API error:", data.error);
+        alert("Failed: " + (data.error?.message || data.error));
+      }
     } catch (err) {
-      const text = await response.clone().text(); // safe fallback
-      console.error("Server returned invalid JSON:", text);
-      alert("Server returned invalid JSON. Check Vercel logs.");
-      return;
+      console.error("Fetch error:", err);
+      alert("Error sending notification: " + err.message);
     }
+  };
 
-    if (data.success) {
-      alert("Notification sent successfully!");
-    } else {
-      alert("Failed: " + data.error);
-    }
-  } catch (err) {
-    console.error("Fetch error:", err);
-    alert("Error sending notification: " + err.message);
-  }
-};
 
 
 
