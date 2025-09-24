@@ -38,37 +38,39 @@ const NotificationDropdown = ({ onClose }) => {
   }
 
   const handleSend = async () => {
-  try {
-    const notification = {
-      message: generatePreview(), // your message content
-    };
-
-    const response = await fetch("/api/sendNotification", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: notification.message }),
-    });
-
-    let data;
     try {
-      data = await response.json();
+      const notification = {
+        message: generatePreview(), // your message
+      };
+  
+      const response = await fetch("/api/sendNotification", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: notification.message }),
+      });
+  
+      // ✅ Read response as JSON safely
+      let data;
+      try {
+        data = await response.json(); // only read once
+      } catch (err) {
+        const text = await response.text(); // fallback to raw text
+        console.error("Server returned invalid JSON:", text);
+        alert("Server returned invalid JSON. Check Vercel logs.");
+        return;
+      }
+  
+      if (data.success) {
+        alert("Notification sent successfully!");
+      } else {
+        alert("Failed: " + data.error);
+      }
     } catch (err) {
-      // Log the raw response if JSON fails
-      console.error("Server returned invalid JSON:", await response.text());
-      alert("Server returned invalid JSON. Check Vercel logs.");
-      return;
+      console.error("Fetch error:", err);
+      alert("Error sending notification: " + err.message);
     }
+  };
 
-    if (data.success) {
-      alert("Notification sent successfully!");
-    } else {
-      alert("Failed: " + data.error);
-    }
-  } catch (err) {
-    console.error(err);
-    alert("Error sending notification: " + err.message);
-  }
-};
 
 
   return (
