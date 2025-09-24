@@ -39,9 +39,7 @@ const NotificationDropdown = ({ onClose }) => {
 
   const handleSend = async () => {
     try {
-      const notification = {
-        message: generatePreview(),
-      };
+      const notification = { message: generatePreview() };
   
       const response = await fetch("/api/sendNotification", {
         method: "POST",
@@ -49,8 +47,7 @@ const NotificationDropdown = ({ onClose }) => {
         body: JSON.stringify({ message: notification.message }),
       });
   
-      // ✅ Read JSON once
-      const data = await response.json();
+      const data = await response.json(); // read body once
   
       if (data.success) {
         alert("Notification sent successfully!");
@@ -63,6 +60,7 @@ const NotificationDropdown = ({ onClose }) => {
       alert("Error sending notification: " + err.message);
     }
   };
+  
 
 
 
